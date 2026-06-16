@@ -27,7 +27,7 @@ docker run --name to-remind-do-db -e POSTGRES_PASSWORD=1234 -e POSTGRES_DB=to-re
 **2. Clonar el repositorio**
 
 ```bash
-git clone https://github.com/tu-usuario/to-remind-do.git
+git clone https://github.com/AlejoA0/to-remind-do.git
 cd to-remind-do
 ```
 
