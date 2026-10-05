@@ -26,4 +26,8 @@ public class CrearUsuarioDTO {
     @Positive
     private Integer edad;
 
+    @NotBlank
+    @Size(min = 7)
+    private String clave;
+
 }

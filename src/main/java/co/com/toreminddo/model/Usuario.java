@@ -25,6 +25,9 @@ public class Usuario {
     private Integer edad;
 
     @JsonIgnore
+    private String clave;
+
+    @JsonIgnore
     @OneToMany(mappedBy = "usuario")
     private List<Tarea> listadoTareas = new ArrayList<>();
 }
