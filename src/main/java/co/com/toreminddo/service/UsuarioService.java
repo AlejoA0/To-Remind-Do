@@ -5,6 +5,7 @@ import co.com.toreminddo.model.Usuario;
 import co.com.toreminddo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     /*
        Paso 1: Validar que los datos tengan sentido (¿existe el usuario? ¿existe el libro?)
        Paso 2: Validar que cumplan las reglas de negocio (¿el usuario tiene menos de 3? ¿el libro no está prestado?)
@@ -23,7 +27,7 @@ public class UsuarioService {
        Ese patrón es siempre igual, solo cambian los detalles específicos de cada método.
     */
 
-    public Usuario crearUsuario(String nombre, String email, Integer edad) {
+    public Usuario crearUsuario(String nombre, String email, Integer edad, String clave) {
 
         if (existeEmail(email)) {
             throw new UsuarioException("El email ya se encuentra registrado");
@@ -34,6 +38,7 @@ public class UsuarioService {
         nuevoUsuario.setNombre(nombre);
         nuevoUsuario.setEmail(email);
         nuevoUsuario.setEdad(edad);
+        nuevoUsuario.setClave(passwordEncoder.encode(clave));
 
         try {
             return usuarioRepository.save(nuevoUsuario);
@@ -49,6 +54,11 @@ public class UsuarioService {
 
     public List<Usuario> obtenerTodosUsuarios() {
         return usuarioRepository.findAll();
+    }
+
+    public Usuario obtenerUsuarioPorEmail(String email) {
+        return usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new UsuarioException("No se encuentra el usuario por el email solicitado"));
     }
 
     private boolean existeEmail(String email) {

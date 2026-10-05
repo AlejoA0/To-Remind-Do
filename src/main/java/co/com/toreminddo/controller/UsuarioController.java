@@ -18,18 +18,6 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@Valid @RequestBody CrearUsuarioDTO dto) {
-
-        Usuario usuarioCreado = usuarioService.crearUsuario(
-                dto.getNombre(),
-                dto.getEmail(),
-                dto.getEdad()
-        );
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioCreado);
-    }
-
     @GetMapping("/{usuarioId}")
     public ResponseEntity<Usuario> obtenerUsuario(@PathVariable Long usuarioId) {
         Usuario usuarioObtenido = usuarioService.obtenerUsuario(usuarioId);
